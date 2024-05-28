@@ -10,6 +10,7 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
+import { PublisherGithub } from '@electron-forge/publisher-github/dist/PublisherGithub';
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -47,6 +48,14 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
+  publishers: [
+    new PublisherGithub({
+      repository: {name: "electron-demo-ts", owner: "dmaxim"},
+      authToken: "",
+      prerelease: false
+    }),
+  ]
+  
 };
 
 export default config;
