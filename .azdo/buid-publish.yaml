@@ -60,14 +60,14 @@ stages:
             displayName: 'Publish to GitHub'
             inputs:
               script: 'npm run publish'
+              workingDirectory: 'readit-two'
             env:
               GITHUB_TOKEN: $(GITHUB_TOKEN)
-              workingDirectory: 'readit-two'
               SM_HOST: 'https://clientauth.one.digicert.com'
               SM_API_KEY: $(DIGICERT_API_KEY)
               SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
               SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
-
+             
           # - task: CopyFiles@2
           #   inputs:
           #     sourceFolder: '$(Build.SourcesDirectory)'
