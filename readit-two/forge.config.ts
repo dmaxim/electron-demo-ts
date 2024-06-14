@@ -11,6 +11,7 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
 import { PublisherGithub } from '@electron-forge/publisher-github/dist/PublisherGithub';
+import  environment  from './env';
 
 const config: ForgeConfig = {
   packagerConfig: {
@@ -19,7 +20,7 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [new MakerSquirrel({
     windowsSign: {
-      signWithParams: '--verbose --keypair-alias=key_770929049',
+      signWithParams: `--verbose --keypair-alias=${environment.keyPairAlias} --certificate=${environment.certFilePath} --config-file=${environment.configFile}`
       
     }
   }), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],

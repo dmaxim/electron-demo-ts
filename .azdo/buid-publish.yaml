@@ -67,6 +67,8 @@ stages:
               SM_API_KEY: $(DIGICERT_API_KEY)
               SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
               SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+              KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
+              SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
              
           # - task: CopyFiles@2
           #   inputs:
