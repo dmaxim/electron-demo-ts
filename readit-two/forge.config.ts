@@ -18,10 +18,7 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [new MakerSquirrel({
-    windowsSign: {
-      signWithParams: '--verbose --keypair-alias=$(KEYPAIR_ALIAS) --certificate="$(Agent.TempDirectory)\KeyCert.pem" --config-file $(SSMClientToolsSetup.PKCS11_CONFIG)',
-      signToolPath: "smctl.exe"
-    }
+
   }), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
