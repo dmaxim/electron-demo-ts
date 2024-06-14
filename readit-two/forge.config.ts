@@ -17,7 +17,11 @@ const config: ForgeConfig = {
     asar: true,
   },
   rebuildConfig: {},
-  makers: [new MakerSquirrel({}), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
+  makers: [new MakerSquirrel({
+    windowsSign: {
+      signWithParams: '--verbose --keypair-alias=$(KEYPAIR_ALIAS) --certificate="$(Agent.TempDirectory)\KeyCert.pem" --config-file $(SSMClientToolsSetup.PKCS11_CONFIG)'
+    }
+  }), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
