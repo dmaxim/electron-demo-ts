@@ -18,7 +18,10 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [new MakerSquirrel({
-
+    windowsSign: {
+      signWithParams: '--verbose --keypair-alias=key_770929049',
+      
+    }
   }), new MakerZIP({}, ['darwin']), new MakerRpm({}), new MakerDeb({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
