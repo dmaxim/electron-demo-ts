@@ -47,12 +47,14 @@ stages:
             displayName: 'Install desktop app depedencies'
             inputs:
               command: 'install'
+              workingDir: 'readit-two'
 
           - task: Npm@1
             displayName: 'Build desktop app'
             inputs:
               command: 'custom'
               customCommand: 'run publish'
+              workingDir: 'readit-two'
 
           # - task: CopyFiles@2
           #   inputs:
