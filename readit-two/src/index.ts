@@ -10,10 +10,9 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
-
-if (require("electron-squirrel-startup")) {
-  app.quit();
-}
+updateElectronApp({
+  logger: require('electron-log')
+});
 
 const createWindow = (): void => {
   // Create the browser window.
