@@ -49,20 +49,20 @@ stages:
               command: 'install'
               workingDir: 'readit-two'
 
-          # - task: Npm@1
-          #   displayName: 'Build desktop app'
-          #   inputs:
-          #     command: 'custom'
-          #     customCommand: 'run publish'
-          #     workingDir: 'readit-two'
-
-          - task: CmdLine@2
-            displayName: 'Publish to GitHub'
+          - task: Npm@1
+            displayName: 'Build desktop app'
             inputs:
-              script: 'npm run publish'
-            env:
-              GITHUB_TOKEN: $(GITHUB_TOKEN)
-              workingDirectory: 'readit-two'
+              command: 'custom'
+              customCommand: 'run publish'
+              workingDir: 'readit-two'
+
+          # - task: CmdLine@2
+          #   displayName: 'Publish to GitHub'
+          #   inputs:
+          #     script: 'npm run publish'
+          #   env:
+          #     GITHUB_TOKEN: $(GITHUB_TOKEN)
+          #     workingDirectory: 'readit-two'
 
           # - task: CopyFiles@2
           #   inputs:
