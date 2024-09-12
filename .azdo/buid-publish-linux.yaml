@@ -15,36 +15,81 @@ stages:
     displayName: Build Desktop Application
 
     jobs:
-      - job: CheckRelease
+    # - job: build
+      #   displayName: 'Build'
+      #   steps:
+          # - task: NodeTool@0
+          #   displayName: "Install Node.js"
+          #   inputs:
+          #     versionSpec: "21.x"
+          
+
+          # - task: Npm@1
+          #   displayName: 'Install desktop app depedencies'
+          #   inputs:
+          #     command: 'install'
+          #     workingDir: 'readit-two'
+
+          # - task: CmdLine@2
+          #   displayName: 'Publish to Application'
+          #   inputs:
+          #     script: 'npm run publish'
+          #     workingDirectory: 'readit-two'
+
+          # - task: CopyFiles@2
+          #   inputs:
+          #     sourceFolder: '$(Build.SourcesDirectory)'
+          #     flattenFolders: false
+          #     contents: |
+          #       readit-two/out/make/**
+          #     targetFolder: '$(Build.ArtifactStagingDirectory)'
+          #   displayName: 'Copy output files'
+
+          # - task: PublishPipelineArtifact@1
+          #   inputs:
+          #     artifactName: electron-app
+          #     targetPath: '$(Build.ArtifactStagingDirectory)'
+          #     publishLocation: 'pipeline'
+          #   displayName: 'Publish electron app artifact'
+
+          # - task: CmdLine@2
+          #   displayName: "List contents of $(Build.ArtifactStagingDirectory)"
+          #   inputs:
+          #     script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
+
+      - job: CreateRelease
         displayName: 'Check Release'
         steps:
           - task: CmdLine@2
             displayName: 'Check for GitHub Release'
             continueOnError: true
             inputs:
-              script: gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
+              script: |
+                releaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")
+                echo $releaseStatus
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
             
-      - job: CreateRelease
-        displayName: 'Create Release'
-        dependsOn: CheckRelease
-        condition: failed()
-        steps:
-          - task: CmdLine@2
-            displayName: 'Create Release'
-            inputs:
-              script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
-            env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
+      # - job: CreateRelease
+      #   displayName: 'Create Release'
+      #   dependsOn: CheckRelease
+      #   condition: failed()
+      #   steps:
+      #     - task: CmdLine@2
+      #       displayName: 'Create Release'
+      #       inputs:
+      #         script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
+      #       env:
+      #         GH_TOKEN: $(PUBLISH_TOKEN)
 
 
-      - job: Publish
-        steps:
-          - task: CmdLine@2
-            displayName: 'Publish Deb to GitHub'
-            inputs:
-              script: 'echo publishing'
+      # - job: Publish
+      #   displayName: 'Publish'
+      #   steps:
+      #     - task: CmdLine@2
+      #       displayName: 'Publish Deb to GitHub'
+      #       inputs:
+      #         script: 'echo publishing'
 
 
           # - task: CmdLine@2
