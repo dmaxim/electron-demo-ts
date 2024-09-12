@@ -15,7 +15,7 @@ stages:
     displayName: Build Desktop Application
 
     jobs:
-    - job: build
+      - job: build
         displayName: 'Build'
         steps:
           - task: NodeTool@0
@@ -51,11 +51,6 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               publishLocation: 'pipeline'
             displayName: 'Publish electron app artifact'
-
-          - task: CmdLine@2
-            displayName: "List contents of $(Build.ArtifactStagingDirectory)"
-            inputs:
-              script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
 
       - job: CreateRelease
         dependsOn: build
