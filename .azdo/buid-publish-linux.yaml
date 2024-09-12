@@ -15,9 +15,9 @@ stages:
     displayName: Build Desktop Application
 
     jobs:
-      - job: build
-        displayName: 'Build'
-        steps:
+      # - job: build
+      #   displayName: 'Build'
+      #   steps:
           # - task: NodeTool@0
           #   displayName: "Install Node.js"
           #   inputs:
