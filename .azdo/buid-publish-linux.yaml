@@ -58,6 +58,7 @@ stages:
           #     script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
       - job: CheckRelease
         displayName: 'Check Release'
+        steps:
           - task: CmdLine@2
             displayName: 'Check for GitHub Release'
             continueOnError: true
@@ -68,6 +69,7 @@ stages:
             
       - job: CreateRelease
         displayName: 'Create Release'
+        steps:
           - task: CmdLine@2
             displayName: 'Create Release'
             inputs:
@@ -78,7 +80,7 @@ stages:
             condition: failed()
 
       - job: Publish
-
+        steps:
           - task: CmdLine@2
             displayName: 'Publish Deb to GitHub'
             inputs:
