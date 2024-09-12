@@ -7,7 +7,8 @@ pool:
 
 variables:
   publishPath: "electron-app/readit-two/out/make/squirrel.windows/x64"
-  windowsExeName: "readit-two-${VERSION_TAG} Setup.exe"
+  windowsExeName: "readit-two-$(VERSION_TAG) Setup.exe"
+  version: $(VERSION_TAG)
 stages:
   - stage: Build
     displayName: Build Desktop Application
