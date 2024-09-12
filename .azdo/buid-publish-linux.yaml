@@ -5,8 +5,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  publishPath: 'readit-two/out/make/'
-  debPath: 'deb\x64\readit-two-$(VERSION_TAG)_amd64.deb'
+  publishPath: 'readit-two/out/make'
+  debPath: 'deb/x64/readit-two-$(VERSION_TAG)_amd64.deb'
   version: $(VERSION_TAG)
 
 stages:
