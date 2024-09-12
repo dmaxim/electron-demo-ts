@@ -25,12 +25,11 @@ stages:
               workingDir: 'readit-two'
 
           - task: CmdLine@2
-            displayName: 'Publish to GitHub'
+            displayName: 'Publish to Application'
             inputs:
               script: 'npm run publish'
               workingDirectory: 'readit-two'
-            env:
-              GITHUB_TOKEN: $(GITHUB_TOKEN)
+
               
           # - task: CopyFiles@2
           #   inputs:
@@ -52,12 +51,27 @@ stages:
           #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
           #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
 
-          # - task: PublishPipelineArtifact@1
-          #   inputs:
-          #     artifactName: electron-app
-          #     targetPath: '$(Build.ArtifactStagingDirectory)'
-          #     publishLocation: 'pipeline'
-          #   displayName: 'Publish electron app artifact'
+          - task: CopyFiles@2
+            inputs:
+              sourceFolder: '$(Build.SourcesDirectory)'
+              flattenFolders: false
+              contents: |
+                readit-two/out/make/**
+              targetFolder: '$(Build.ArtifactStagingDirectory)'
+            displayName: 'Copy output files'
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              artifactName: electron-app
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              publishLocation: 'pipeline'
+            displayName: 'Publish electron app artifact'
+
+          - task: CmdLine@2
+            displayName: "List contents of $(Build.ArtifactStagingDirectory)"
+            inputs:
+              script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
+
 
           # - task: CmdLine@2
           #   displayName: 'Publish to GitHub'
