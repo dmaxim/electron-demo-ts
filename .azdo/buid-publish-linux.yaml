@@ -72,7 +72,6 @@ stages:
               script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
-            dependsOn: Check for GitHub Release
             condition: $(releaseStatus) == 'release not found'
 
           - task: CmdLine@2
