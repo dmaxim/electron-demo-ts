@@ -18,44 +18,44 @@ stages:
       - job: build
         displayName: 'Build and Publish'
         steps:
-          # - task: NodeTool@0
-          #   displayName: "Install Node.js"
-          #   inputs:
-          #     versionSpec: "21.x"
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: "21.x"
           
 
-          # - task: Npm@1
-          #   displayName: 'Install desktop app depedencies'
-          #   inputs:
-          #     command: 'install'
-          #     workingDir: 'readit-two'
+          - task: Npm@1
+            displayName: 'Install desktop app depedencies'
+            inputs:
+              command: 'install'
+              workingDir: 'readit-two'
 
-          # - task: CmdLine@2
-          #   displayName: 'Publish to Application'
-          #   inputs:
-          #     script: 'npm run publish'
-          #     workingDirectory: 'readit-two'
+          - task: CmdLine@2
+            displayName: 'Publish to Application'
+            inputs:
+              script: 'npm run publish'
+              workingDirectory: 'readit-two'
 
-          # - task: CopyFiles@2
-          #   inputs:
-          #     sourceFolder: '$(Build.SourcesDirectory)'
-          #     flattenFolders: false
-          #     contents: |
-          #       readit-two/out/make/**
-          #     targetFolder: '$(Build.ArtifactStagingDirectory)'
-          #   displayName: 'Copy output files'
+          - task: CopyFiles@2
+            inputs:
+              sourceFolder: '$(Build.SourcesDirectory)'
+              flattenFolders: false
+              contents: |
+                readit-two/out/make/**
+              targetFolder: '$(Build.ArtifactStagingDirectory)'
+            displayName: 'Copy output files'
 
-          # - task: PublishPipelineArtifact@1
-          #   inputs:
-          #     artifactName: electron-app
-          #     targetPath: '$(Build.ArtifactStagingDirectory)'
-          #     publishLocation: 'pipeline'
-          #   displayName: 'Publish electron app artifact'
+          - task: PublishPipelineArtifact@1
+            inputs:
+              artifactName: electron-app
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              publishLocation: 'pipeline'
+            displayName: 'Publish electron app artifact'
 
-          # - task: CmdLine@2
-          #   displayName: "List contents of $(Build.ArtifactStagingDirectory)"
-          #   inputs:
-          #     script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
+          - task: CmdLine@2
+            displayName: "List contents of $(Build.ArtifactStagingDirectory)"
+            inputs:
+              script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
 
           - task: CmdLine@2
             displayName: 'Create Release'
@@ -64,18 +64,18 @@ stages:
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
 
-          # - task: CmdLine@2
-          #   displayName: 'Publish Deb to GitHub'
-          #   inputs:
-          #     script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(debPath)"'
-          #   env:
-          #     GH_TOKEN: $(PUBLISH_TOKEN)
+          - task: CmdLine@2
+            displayName: 'Publish Deb to GitHub'
+            inputs:
+              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(debPath)"'
+            env:
+              GH_TOKEN: $(PUBLISH_TOKEN)
 
 
 
-          # - task: CmdLine@2
-          #   displayName: 'Publish RPM to GitHub'
-          #   inputs:
-          #     script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(rpmPath)"'
-          #   env:
-          #     GH_TOKEN: $(PUBLISH_TOKEN)
+          - task: CmdLine@2
+            displayName: 'Publish RPM to GitHub'
+            inputs:
+              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(rpmPath)"'
+            env:
+              GH_TOKEN: $(PUBLISH_TOKEN)
