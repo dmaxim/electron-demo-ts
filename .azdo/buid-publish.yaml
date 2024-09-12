@@ -70,13 +70,14 @@ stages:
               # KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
               # SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
              
-          # - task: CopyFiles@2
-          #   inputs:
-          #     sourceFolder: '$(Build.SourcesDirectory)'
-          #     contents: |
-          #       dist/*
-          #     targetFolder: '$(Build.ArtifactStagingDirectory)'
-          #   displayName: 'Copy output files'
+          - task: CopyFiles@2
+            inputs:
+              sourceFolder: '$(Build.SourcesDirectory)'
+              flattenFolders: false
+              contents: |
+                dist/*
+              targetFolder: '$(Build.ArtifactStagingDirectory)'
+            displayName: 'Copy output files'
           
 
 
@@ -90,12 +91,12 @@ stages:
           #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
           #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
 
-          # - task: PublishPipelineArtifact@1
-          #   inputs:
-          #     artifactName: electron-app
-          #     targetPath: '$(Build.ArtifactStagingDirectory)'
-          #     publishLocation: 'pipeline'
-          #   displayName: 'Publish electron app artifact'
+          - task: PublishPipelineArtifact@1
+            inputs:
+              artifactName: electron-app
+              targetPath: '$(Build.ArtifactStagingDirectory)'
+              publishLocation: 'pipeline'
+            displayName: 'Publish electron app artifact'
 
           # - task: CmdLine@2
           #   displayName: 'Publish to GitHub'
