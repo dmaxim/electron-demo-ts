@@ -60,7 +60,7 @@ stages:
           - task: CmdLine@2
             displayName: 'Create Release'
             inputs:
-              script: 'gh release create --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" '
+              script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
 
