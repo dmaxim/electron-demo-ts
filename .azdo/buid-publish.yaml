@@ -12,10 +12,10 @@ stages:
       - job: build
         displayName: 'Build and Publish'
         steps:
-          # - task: NodeTool@0
-          #   displayName: "Install Node.js"
-          #   inputs:
-          #     versionSpec: "21.x"
+          - task: NodeTool@0
+            displayName: "Install Node.js"
+            inputs:
+              versionSpec: "21.x"
           
           # - task: DownloadSecureFile@1
           #   name: Client_Cert_File
