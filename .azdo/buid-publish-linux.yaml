@@ -36,27 +36,6 @@ stages:
               script: 'npm run publish'
               workingDirectory: 'readit-two'
 
-              
-          # - task: CopyFiles@2
-          #   inputs:
-          #     sourceFolder: '$(Build.SourcesDirectory)'
-          #     contents: |
-          #       dist/*
-          #     targetFolder: '$(Build.ArtifactStagingDirectory)'
-          #   displayName: 'Copy output files'
-          
-
-
-          # - task: CmdLine@2
-          #   displayName: 'Sign Application'
-          #   inputs:
-          #     script: 'smctl sign --verbose --keypair-alias=$(KEYPAIR_ALIAS) --certificate=$(Agent.TempDirectory)\KeyCert.pem --config-file $(SSMClientToolsSetup.PKCS11_CONFIG) --input $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe.blockmap'
-          #   env:
-          #     SM_HOST: 'https://clientauth.one.digicert.com'
-          #     SM_API_KEY: $(DIGICERT_API_KEY)
-          #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-          #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
-
           - task: CopyFiles@2
             inputs:
               sourceFolder: '$(Build.SourcesDirectory)'
