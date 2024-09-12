@@ -75,7 +75,7 @@ stages:
               sourceFolder: '$(Build.SourcesDirectory)'
               flattenFolders: false
               contents: |
-                dist/*
+                readit-two/out/make/**
               targetFolder: '$(Build.ArtifactStagingDirectory)'
             displayName: 'Copy output files'
           
