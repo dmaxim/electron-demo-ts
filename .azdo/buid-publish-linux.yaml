@@ -59,7 +59,7 @@ stages:
 
           - task: CmdLine@2
             displayName: 'Check for GitHub Release'
-            continueOnError: true
+            #continueOnError: true
             inputs:
               script: 'resleaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")'
             env:
@@ -69,6 +69,7 @@ stages:
             displayName: 'Create GitHub Release'
             inputs:
               script: 'echo $releaseStatus'
+            condition: failed()
             
 
           - task: CmdLine@2
