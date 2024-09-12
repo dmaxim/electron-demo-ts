@@ -7,7 +7,7 @@ pool:
 variables:
   publishPath: 'readit-two/out/make'
   debPath: 'deb/x64/readit-two_$(VERSION_TAG)_amd64.deb'
-  rmPath: 'rpm/x64/readit-two-$(VERSION_TAG)-1.x86_64.rpm'
+  rpmPath: 'rpm/x64/readit-two-$(VERSION_TAG)-1.x86_64.rpm'
   version: $(VERSION_TAG)
 
 stages:
