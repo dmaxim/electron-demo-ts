@@ -17,30 +17,30 @@ stages:
             inputs:
               versionSpec: "21.x"
           
-          - task: DownloadSecureFile@1
-            name: Client_Cert_File
-            displayName: 'Download Service User Cert'
-            inputs:
-              secureFile: 'Certificate_pkcs12.p12'
+          # - task: DownloadSecureFile@1
+          #   name: Client_Cert_File
+          #   displayName: 'Download Service User Cert'
+          #   inputs:
+          #     secureFile: 'Certificate_pkcs12.p12'
 
           
-          - task: SSMClientToolsSetup@1
-            inputs:
-              APIKey: $(DIGICERT_API_KEY)
+          # - task: SSMClientToolsSetup@1
+          #   inputs:
+          #     APIKey: $(DIGICERT_API_KEY)
 
-          - task: SSMSigningToolsSetup@1
-            inputs:
-              APIKey: $(DIGICERT_API_KEY)
+          # - task: SSMSigningToolsSetup@1
+          #   inputs:
+          #     APIKey: $(DIGICERT_API_KEY)
 
-          - task: CmdLine@2
-            displayName: 'Download Certificate'
-            inputs:
-              script: 'smctl certificate download --keypair-alias=$(KEYPAIR_ALIAS) --name=KeyCert.pem --out=$(Agent.TempDirectory)'
-            env:
-              SM_HOST: 'https://clientauth.one.digicert.com'
-              SM_API_KEY: $(DIGICERT_API_KEY)
-              SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-              SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+          # - task: CmdLine@2
+          #   displayName: 'Download Certificate'
+          #   inputs:
+          #     script: 'smctl certificate download --keypair-alias=$(KEYPAIR_ALIAS) --name=KeyCert.pem --out=$(Agent.TempDirectory)'
+          #   env:
+          #     SM_HOST: 'https://clientauth.one.digicert.com'
+          #     SM_API_KEY: $(DIGICERT_API_KEY)
+          #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
+          #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
 
 
           - task: Npm@1
@@ -63,12 +63,12 @@ stages:
               workingDirectory: 'readit-two'
             env:
               GITHUB_TOKEN: $(GITHUB_TOKEN)
-              SM_HOST: 'https://clientauth.one.digicert.com'
-              SM_API_KEY: $(DIGICERT_API_KEY)
-              SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-              SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
-              KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
-              SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
+              # SM_HOST: 'https://clientauth.one.digicert.com'
+              # SM_API_KEY: $(DIGICERT_API_KEY)
+              # SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
+              # SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+              # KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
+              # SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
              
           # - task: CopyFiles@2
           #   inputs:
