@@ -28,6 +28,8 @@ stages:
             
       - job: CreateRelease
         displayName: 'Create Release'
+        dependsOn: CheckRelease
+        condition: failed()
         steps:
           - task: CmdLine@2
             displayName: 'Create Release'
@@ -35,8 +37,7 @@ stages:
               script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
-            dependsOn: CheckRelease
-            condition: failed()
+
 
       - job: Publish
         steps:
