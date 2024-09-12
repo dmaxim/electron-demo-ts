@@ -78,6 +78,12 @@ stages:
             inputs:
               script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
 
+          # - task: CmdLine@2
+          #   displayName: 'Create Release'
+          #   inputs:
+          #     script: 'gh release create --repo $(GITHUB_REPOSITORY) "v1.0.6" '
+          #   env:
+          #     GH_TOKEN: $(PUBLISH_TOKEN)
 
           - task: CmdLine@2
             displayName: 'Publish Deb to GitHub'
