@@ -61,7 +61,7 @@ stages:
             displayName: 'Check for GitHub Release'
             continueOnError: true
             inputs:
-              script: 'resleaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")'
+              script: 'releaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")'
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
             
@@ -72,13 +72,14 @@ stages:
               script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
-            condition: failed()
+            dependsOn: Check for GitHub Release
+            condition: $(releaseStatus) == 'release not found'
 
           - task: CmdLine@2
             displayName: 'Publish Deb to GitHub'
             inputs:
               script: 'echo publishing'
-              
+
 
           # - task: CmdLine@2
           #   displayName: 'Publish Deb to GitHub'
