@@ -16,118 +16,127 @@ stages:
     jobs:
       - job: CreateRelease
         steps:
-          - task: CmdLine@2
-            displayName: 'Check for GitHub Release'
-            continueOnError: true
+          # - task: CmdLine@2
+          #   displayName: 'Check for GitHub Release'
+          #   continueOnError: true
+          #   inputs:
+          #     script: |
+          #       if (Not (gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")){
+          #         gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
+          #       }
+          #   env:
+          #     GH_TOKEN: $(PUBLISH_TOKEN)
+
+          - task: PowerShell@2
             inputs:
+              targetType: 'inline'
               script: |
-                if ! gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"; then
+                $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
+                if ($release -eq $null) {
                   gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
-                fi
-            env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
-
-      - job: build
-        dependsOn: CreateRelease
-        displayName: 'Build and Publish'
-        steps:
-          - task: NodeTool@0
-            displayName: "Install Node.js"
-            inputs:
-              versionSpec: "21.x"
+                }
+            env: GH_TOKEN: $(PUBLISH_TOKEN)
+      # - job: build
+      #   dependsOn: CreateRelease
+      #   displayName: 'Build and Publish'
+      #   steps:
+      #     - task: NodeTool@0
+      #       displayName: "Install Node.js"
+      #       inputs:
+      #         versionSpec: "21.x"
           
-          # - task: DownloadSecureFile@1
-          #   name: Client_Cert_File
-          #   displayName: 'Download Service User Cert'
-          #   inputs:
-          #     secureFile: 'Certificate_pkcs12.p12'
+      #     # - task: DownloadSecureFile@1
+      #     #   name: Client_Cert_File
+      #     #   displayName: 'Download Service User Cert'
+      #     #   inputs:
+      #     #     secureFile: 'Certificate_pkcs12.p12'
 
           
-          # - task: SSMClientToolsSetup@1
-          #   inputs:
-          #     APIKey: $(DIGICERT_API_KEY)
+      #     # - task: SSMClientToolsSetup@1
+      #     #   inputs:
+      #     #     APIKey: $(DIGICERT_API_KEY)
 
-          # - task: SSMSigningToolsSetup@1
-          #   inputs:
-          #     APIKey: $(DIGICERT_API_KEY)
+      #     # - task: SSMSigningToolsSetup@1
+      #     #   inputs:
+      #     #     APIKey: $(DIGICERT_API_KEY)
 
-          # - task: CmdLine@2
-          #   displayName: 'Download Certificate'
-          #   inputs:
-          #     script: 'smctl certificate download --keypair-alias=$(KEYPAIR_ALIAS) --name=KeyCert.pem --out=$(Agent.TempDirectory)'
-          #   env:
-          #     SM_HOST: 'https://clientauth.one.digicert.com'
-          #     SM_API_KEY: $(DIGICERT_API_KEY)
-          #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-          #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+      #     # - task: CmdLine@2
+      #     #   displayName: 'Download Certificate'
+      #     #   inputs:
+      #     #     script: 'smctl certificate download --keypair-alias=$(KEYPAIR_ALIAS) --name=KeyCert.pem --out=$(Agent.TempDirectory)'
+      #     #   env:
+      #     #     SM_HOST: 'https://clientauth.one.digicert.com'
+      #     #     SM_API_KEY: $(DIGICERT_API_KEY)
+      #     #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
+      #     #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
 
 
-          - task: Npm@1
-            displayName: 'Install desktop app depedencies'
-            inputs:
-              command: 'install'
-              workingDir: 'readit-two'
+      #     - task: Npm@1
+      #       displayName: 'Install desktop app depedencies'
+      #       inputs:
+      #         command: 'install'
+      #         workingDir: 'readit-two'
 
-          # - task: Npm@1
-          #   displayName: 'Build desktop app'
-          #   inputs:
-          #     command: 'custom'
-          #     customCommand: 'run publish'
-          #     workingDir: 'readit-two'
+      #     # - task: Npm@1
+      #     #   displayName: 'Build desktop app'
+      #     #   inputs:
+      #     #     command: 'custom'
+      #     #     customCommand: 'run publish'
+      #     #     workingDir: 'readit-two'
 
-          - task: CmdLine@2
-            displayName: 'Publish to GitHub'
-            inputs:
-              script: 'npm run publish'
-              workingDirectory: 'readit-two'
-            # env:
-            #   GITHUB_TOKEN: $(GITHUB_TOKEN)
-              # SM_HOST: 'https://clientauth.one.digicert.com'
-              # SM_API_KEY: $(DIGICERT_API_KEY)
-              # SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-              # SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
-              # KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
-              # SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
+      #     - task: CmdLine@2
+      #       displayName: 'Publish to GitHub'
+      #       inputs:
+      #         script: 'npm run publish'
+      #         workingDirectory: 'readit-two'
+      #       # env:
+      #       #   GITHUB_TOKEN: $(GITHUB_TOKEN)
+      #         # SM_HOST: 'https://clientauth.one.digicert.com'
+      #         # SM_API_KEY: $(DIGICERT_API_KEY)
+      #         # SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
+      #         # SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+      #         # KEY_PAIR_ALIAS: $(KEYPAIR_ALIAS)
+      #         # SIGN_CONFIG_FILE: $(SSMClientToolsSetup.PKCS11_CONFIG)
              
-          - task: CopyFiles@2
-            inputs:
-              sourceFolder: '$(Build.SourcesDirectory)'
-              flattenFolders: false
-              contents: |
-                readit-two/out/make/**
-              targetFolder: '$(Build.ArtifactStagingDirectory)'
-            displayName: 'Copy output files'
+      #     - task: CopyFiles@2
+      #       inputs:
+      #         sourceFolder: '$(Build.SourcesDirectory)'
+      #         flattenFolders: false
+      #         contents: |
+      #           readit-two/out/make/**
+      #         targetFolder: '$(Build.ArtifactStagingDirectory)'
+      #       displayName: 'Copy output files'
           
 
 
-          # - task: CmdLine@2
-          #   displayName: 'Sign Application'
-          #   inputs:
-          #     script: 'smctl sign --verbose --keypair-alias=$(KEYPAIR_ALIAS) --certificate=$(Agent.TempDirectory)\KeyCert.pem --config-file $(SSMClientToolsSetup.PKCS11_CONFIG) --input $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe.blockmap'
-          #   env:
-          #     SM_HOST: 'https://clientauth.one.digicert.com'
-          #     SM_API_KEY: $(DIGICERT_API_KEY)
-          #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
-          #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
+      #     # - task: CmdLine@2
+      #     #   displayName: 'Sign Application'
+      #     #   inputs:
+      #     #     script: 'smctl sign --verbose --keypair-alias=$(KEYPAIR_ALIAS) --certificate=$(Agent.TempDirectory)\KeyCert.pem --config-file $(SSMClientToolsSetup.PKCS11_CONFIG) --input $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe.blockmap'
+      #     #   env:
+      #     #     SM_HOST: 'https://clientauth.one.digicert.com'
+      #     #     SM_API_KEY: $(DIGICERT_API_KEY)
+      #     #     SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)
+      #     #     SM_CLIENT_CERT_FILE: $(Client_Cert_File.secureFilePath)
 
-          - task: PublishPipelineArtifact@1
-            inputs:
-              artifactName: electron-app
-              targetPath: '$(Build.ArtifactStagingDirectory)'
-              publishLocation: 'pipeline'
-            displayName: 'Publish electron app artifact'
+      #     - task: PublishPipelineArtifact@1
+      #       inputs:
+      #         artifactName: electron-app
+      #         targetPath: '$(Build.ArtifactStagingDirectory)'
+      #         publishLocation: 'pipeline'
+      #       displayName: 'Publish electron app artifact'
 
-          - task: CmdLine@2
-            displayName: "List contents of $(Build.ArtifactStagingDirectory)"
-            inputs:
-              script: 'dir $(Build.ArtifactStagingDirectory)\readit-two\out\make'
+      #     - task: CmdLine@2
+      #       displayName: "List contents of $(Build.ArtifactStagingDirectory)"
+      #       inputs:
+      #         script: 'dir $(Build.ArtifactStagingDirectory)\readit-two\out\make'
 
-          - task: CmdLine@2
-            displayName: 'Publish to GitHub'
-            inputs:
-              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)\$(publishPath)\$(windowsExeName)"'
-            env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
+      #     - task: CmdLine@2
+      #       displayName: 'Publish to GitHub'
+      #       inputs:
+      #         script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)\$(publishPath)\$(windowsExeName)"'
+      #       env:
+      #         GH_TOKEN: $(PUBLISH_TOKEN)
 
 
 
