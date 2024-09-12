@@ -16,7 +16,7 @@ stages:
 
     jobs:
       - job: build
-        displayName: 'Build and Publish'
+        displayName: 'Build'
         steps:
           # - task: NodeTool@0
           #   displayName: "Install Node.js"
@@ -56,7 +56,8 @@ stages:
           #   displayName: "List contents of $(Build.ArtifactStagingDirectory)"
           #   inputs:
           #     script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
-
+      - job: CheckRelease
+        displayName: 'Check Release'
           - task: CmdLine@2
             displayName: 'Check for GitHub Release'
             continueOnError: true
@@ -65,14 +66,18 @@ stages:
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
             
-
+      - job: CreateRelease
+        displayName: 'Create Release'
           - task: CmdLine@2
             displayName: 'Create Release'
             inputs:
               script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
-            condition: $(releaseStatus) == 'release not found'
+            dependsOn: CheckRelease
+            condition: failed()
+
+      - job: Publish
 
           - task: CmdLine@2
             displayName: 'Publish Deb to GitHub'
