@@ -61,8 +61,8 @@ stages:
             inputs:
               script: 'npm run publish'
               workingDirectory: 'readit-two'
-            env:
-              GITHUB_TOKEN: $(GITHUB_TOKEN)
+            # env:
+            #   GITHUB_TOKEN: $(GITHUB_TOKEN)
               # SM_HOST: 'https://clientauth.one.digicert.com'
               # SM_API_KEY: $(DIGICERT_API_KEY)
               # SM_CLIENT_CERT_PASSWORD: $(DIGICERT_CERT_PASSWORD)

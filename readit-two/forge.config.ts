@@ -54,13 +54,13 @@ const config: ForgeConfig = {
       [FuseV1Options.OnlyLoadAppFromAsar]: true,
     }),
   ],
-  publishers: [
-    new PublisherGithub({
-      repository: {name: "electron-demo-ts", owner: "dmaxim"},
-      authToken: "",
-      prerelease: false
-    }),
-  ]
+  // publishers: [
+  //   new PublisherGithub({
+  //     repository: {name: "electron-demo-ts", owner: "dmaxim"},
+  //     authToken: "",
+  //     prerelease: false
+  //   }),
+  // ]
   
 };
 
