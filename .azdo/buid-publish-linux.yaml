@@ -15,7 +15,23 @@ stages:
     displayName: Build Desktop Application
 
     jobs:
-      - job: build
+
+      - job: CreateRelease
+        dependsOn: build
+        steps:
+          - task: CmdLine@2
+            displayName: 'Check for GitHub Release'
+            continueOnError: true
+            inputs:
+              script: |
+                if ! gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"; then
+                  gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)"
+                fi
+            env:
+              GH_TOKEN: $(PUBLISH_TOKEN)
+
+      - job: BuildAndPublish
+        dependsOn: CreateRelease
         displayName: 'Build'
         steps:
           - task: NodeTool@0
@@ -52,25 +68,6 @@ stages:
               publishLocation: 'pipeline'
             displayName: 'Publish electron app artifact'
 
-      - job: CreateRelease
-        dependsOn: build
-        displayName: 'Create GitHub Release'
-        steps:
-          - task: CmdLine@2
-            displayName: 'Check for GitHub Release'
-            continueOnError: true
-            inputs:
-              script: |
-                if ! gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"; then
-                  gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)"
-                fi
-            env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
-            
-      - job: Publish
-        displayName: 'Publish'
-        dependsOn: CreateRelease
-        steps:
           - task: CmdLine@2
             displayName: 'Publish Deb to GitHub'
             inputs:
@@ -83,4 +80,5 @@ stages:
             inputs:
               script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(rpmPath)"'
             env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
+              GH_TOKEN: $(PUBLISH_TOKEN)            
+      
