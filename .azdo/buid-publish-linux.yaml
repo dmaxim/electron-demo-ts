@@ -4,6 +4,11 @@ trigger: none
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  publishPath: 'readit-two/out/make/'
+  debPath: 'deb\x64\readit-two-$(VERSION_TAG)_amd64.deb'
+  version: $(VERSION_TAG)
+
 stages:
   - stage: Build
     displayName: Build Desktop Application
@@ -73,12 +78,12 @@ stages:
               script: 'dir $(Build.ArtifactStagingDirectory)/readit-two/out/make'
 
 
-          # - task: CmdLine@2
-          #   displayName: 'Publish to GitHub'
-          #   inputs:
-          #     script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe $(Build.ArtifactStagingDirectory)\dist\ReadIt-$(VERSION_TAG).exe.blockmap'
-          #   env:
-          #     GH_TOKEN: $(PUBLISH_TOKEN)
+          - task: CmdLine@2
+            displayName: 'Publish to GitHub'
+            inputs:
+              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(debPath)"'
+            env:
+              GH_TOKEN: $(PUBLISH_TOKEN)
 
 
 
