@@ -23,7 +23,7 @@ const config: ForgeConfig = {
     //   signWithParams: `--verbose --keypair-alias=${environment.keyPairAlias} --certificate=${environment.certFilePath} --config-file=${environment.configFile}`
       
     // }
-  }), new MakerZIP({}, ['darwin']), new MakerDeb({})],
+  }), new MakerZIP({}, ['darwin']), new MakerDeb({}), new MakerRpm({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
     new WebpackPlugin({
