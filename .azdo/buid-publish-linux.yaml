@@ -65,8 +65,11 @@ stages:
             continueOnError: true
             inputs:
               script: |
-                releaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")
-                echo $releaseStatus
+                if gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"; then
+                  echo "Release found"
+                else
+                  echo "Release not found"
+                fi
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
             
