@@ -59,17 +59,11 @@ stages:
 
           - task: CmdLine@2
             displayName: 'Check for GitHub Release'
-            #continueOnError: true
+            continueOnError: true
             inputs:
               script: 'resleaseStatus=$(gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)")'
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
-
-          - task: CmdLine@2
-            displayName: 'Create GitHub Release'
-            inputs:
-              script: 'echo $releaseStatus'
-            condition: failed()
             
 
           - task: CmdLine@2
@@ -78,6 +72,13 @@ stages:
               script: 'gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "$(VERSION_TAG)" '
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)
+            condition: failed()
+
+          - task: CmdLine@2
+            displayName: 'Publish Deb to GitHub'
+            inputs:
+              script: 'echo publishing'
+              
 
           # - task: CmdLine@2
           #   displayName: 'Publish Deb to GitHub'
