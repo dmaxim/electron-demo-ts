@@ -19,10 +19,10 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [new MakerSquirrel({
-    windowsSign: {
-      signWithParams: `--verbose --keypair-alias=${environment.keyPairAlias} --certificate=${environment.certFilePath} --config-file=${environment.configFile}`
+    // windowsSign: {
+    //   signWithParams: `--verbose --keypair-alias=${environment.keyPairAlias} --certificate=${environment.certFilePath} --config-file=${environment.configFile}`
       
-    }
+    // }
   }), new MakerZIP({}, ['darwin']), new MakerDeb({})],
   plugins: [
     new AutoUnpackNativesPlugin({}),
