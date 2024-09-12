@@ -6,7 +6,7 @@ pool:
 
 
 variables:
-  publishPath: 'readit-two\electron-app\readit-two\out\make\squirrel.windows\x64'
+  publishPath: 'readit-two\out\make\squirrel.windows\x64'
   windowsExeName: 'readit-two-$(VERSION_TAG) Setup.exe'
   version: $(VERSION_TAG)
 stages:
@@ -106,7 +106,7 @@ stages:
           - task: CmdLine@2
             displayName: "List contents of $(Build.ArtifactStagingDirectory)"
             inputs:
-              script: 'dir $(Build.ArtifactStagingDirectory)\readit-two'
+              script: 'dir $(Build.ArtifactStagingDirectory)\readit-two\out'
 
           - task: CmdLine@2
             displayName: 'Publish to GitHub'
