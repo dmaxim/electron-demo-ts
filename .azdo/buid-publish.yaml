@@ -106,7 +106,7 @@ stages:
           - task: CmdLine@2
             displayName: "List contents of $(Build.ArtifactStagingDirectory)"
             inputs:
-              script: 'dir $(Build.ArtifactStagingDirectory)/readit-two'
+              script: 'dir $(Build.ArtifactStagingDirectory)\readit-two'
 
           - task: CmdLine@2
             displayName: 'Publish to GitHub'
