@@ -10,8 +10,8 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
-import { PublisherGithub } from '@electron-forge/publisher-github/dist/PublisherGithub';
-import  environment  from './env';
+//import { PublisherGithub } from '@electron-forge/publisher-github/dist/PublisherGithub';
+//import  environment  from './env';
 
 const config: ForgeConfig = {
   packagerConfig: {
