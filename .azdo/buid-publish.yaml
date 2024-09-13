@@ -31,11 +31,8 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
+                $env:GITHUB_TOKEN = "$(PUBLISH_TOKEN)"
                 $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
-                if ($release -eq $null) {
-                  gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
-                }
-            env: GH_TOKEN: $(PUBLISH_TOKEN)
       # - job: build
       #   dependsOn: CreateRelease
       #   displayName: 'Build and Publish'
