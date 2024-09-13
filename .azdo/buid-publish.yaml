@@ -34,11 +34,17 @@ stages:
               targetType: 'inline'
               script: |
                 $env:GITHUB_TOKEN = "$(PUBLISH_TOKEN)"
-                $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
-                if ($release -eq 'release not found') {
+                try {
+                  $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
+                  if ($release -eq 'release not found') {
+                    Write-Host "Error checking release release v$(VERSION_TAG)"
+                    # gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
+                  }
+                } catch {
                   Write-Host "Creating release v$(VERSION_TAG)"
-                  gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
+                  #gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
                 }
+     
        
       # - job: build
       #   dependsOn: CreateRelease
