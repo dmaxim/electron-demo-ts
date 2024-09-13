@@ -28,6 +28,8 @@ stages:
           #     GH_TOKEN: $(PUBLISH_TOKEN)
 
           - task: PowerShell@2
+            displayName: 'Check for GitHub Release'
+            continueOnError: true
             inputs:
               targetType: 'inline'
               script: |
