@@ -36,11 +36,9 @@ stages:
                 $env:GITHUB_TOKEN = "$(PUBLISH_TOKEN)"
                 $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
                 if ($release -eq 'release not found') {
-                  Write-Host "Creating release"
-                } else {
-                  Write-Host "Release already exists"
+                  gh release create --draft --latest --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" --title "v$(VERSION_TAG)"
                 }
-                Write-Host "Release: $release"
+       
       # - job: build
       #   dependsOn: CreateRelease
       #   displayName: 'Build and Publish'
