@@ -33,7 +33,7 @@ stages:
               script: |
                 $env:GITHUB_TOKEN = "$(PUBLISH_TOKEN)"
                 $release = gh release view --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)"
-                if ($release.ExitCode -ne 0) {
+                if ($?) {
                   Write-Host "Creating new release"
                 } else {
                   Write-Host "Release already exists"
