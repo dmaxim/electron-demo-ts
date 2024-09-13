@@ -80,7 +80,7 @@ stages:
           #     workingDir: 'readit-two'
 
           - task: CmdLine@2
-            displayName: 'Publish to GitHub'
+            displayName: 'Publish to Application'
             inputs:
               script: 'npm run publish'
               workingDirectory: 'readit-two'
