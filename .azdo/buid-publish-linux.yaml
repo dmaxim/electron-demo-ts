@@ -8,6 +8,7 @@ variables:
   publishPath: 'readit-two/out/make'
   debPath: 'deb/x64/readit-two_$(VERSION_TAG)_amd64.deb'
   rpmPath: 'rpm/x64/readit-two-$(VERSION_TAG)-1.x86_64.rpm'
+  zipPath: 'zip/linux/x64/readit-two-linux-x64-$(VERSION_TAG).zip'
   version: $(VERSION_TAG)
 
 stages:
@@ -66,17 +67,24 @@ stages:
               publishLocation: 'pipeline'
             displayName: 'Publish electron app artifact'
 
-          - task: CmdLine@2
-            displayName: 'Publish Deb to GitHub'
-            inputs:
-              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(debPath)"'
-            env:
-              GH_TOKEN: $(PUBLISH_TOKEN)
+          # - task: CmdLine@2
+          #   displayName: 'Publish Deb to GitHub'
+          #   inputs:
+          #     script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(debPath)"'
+          #   env:
+          #     GH_TOKEN: $(PUBLISH_TOKEN)
 
+          # - task: CmdLine@2
+          #   displayName: 'Publish RPM to GitHub'
+          #   inputs:
+          #     script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(rpmPath)"'
+          #   env:
+          #     GH_TOKEN: $(PUBLISH_TOKEN)            
+      
           - task: CmdLine@2
-            displayName: 'Publish RPM to GitHub'
+            displayName: 'Publish Zip to GitHub'
             inputs:
-              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(rpmPath)"'
+              script: 'gh release upload --repo $(GITHUB_REPOSITORY) "v$(VERSION_TAG)" "$(Build.ArtifactStagingDirectory)/$(publishPath)/$(zipPath)"'
             env:
               GH_TOKEN: $(PUBLISH_TOKEN)            
       
