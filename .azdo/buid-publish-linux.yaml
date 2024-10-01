@@ -38,12 +38,18 @@ stages:
             inputs:
               versionSpec: "21.x"
           
-
-          - task: Npm@1
-            displayName: 'Install desktop app depedencies'
+          - task: CmdLine@2
+            displayName: 'Install destop app dependencies'
             inputs:
-              command: 'install'
-      
+              script: 'npm install'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/readit-two'
+
+          # - task: Npm@1
+          #   displayName: 'Install desktop app depedencies'
+          #   inputs:
+          #     command: 'install'
+          #     workingDir: '$(System.DefaultWorkingDirectory)/readit-two'
+
           # - task: CmdLine@2
           #   displayName: 'Publish to Application'
           #   inputs:
