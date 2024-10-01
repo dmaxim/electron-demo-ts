@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "build:appImage": "electron-builder --linux appImage"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.11.0",
     "electron": "30.0.8",
+    "electron-builder": "^25.0.5",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "fork-ts-checker-webpack-plugin": "^7.3.0",
@@ -47,9 +49,30 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-forge-maker-appimage": "^25.0.5",
+    "app-builder-lib": "^25.0.5",
     "electron-log": "^5.1.5",
     "electron-squirrel-startup": "^1.0.1",
     "update-electron-app": "^3.0.0"
+  },
+  "build": {
+    "directories": {
+      "output": "out/linux"
+    },
+    "appId": "com.daxim.readit-two",
+    "productName": "Readit Two",
+    "files": [
+      "dist/**/*"
+    ],
+    "linux": {
+      "category": "Utility",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
   }
 }
