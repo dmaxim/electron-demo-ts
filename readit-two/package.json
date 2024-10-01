@@ -60,9 +60,6 @@
     },
     "appId": "com.daxim.readit-two",
     "productName": "Readit Two",
-    "files": [
-      "dist/**/*"
-    ],
     "linux": {
       "category": "Utility",
       "target": [
