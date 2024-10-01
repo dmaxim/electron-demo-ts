@@ -43,8 +43,7 @@ stages:
             displayName: 'Install desktop app depedencies'
             inputs:
               command: 'install'
-              workingDir: '$(System.DefaultWorkingDirectory)/readit-two'
-
+      
           # - task: CmdLine@2
           #   displayName: 'Publish to Application'
           #   inputs:
