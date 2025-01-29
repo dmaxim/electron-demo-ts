@@ -1,7 +1,7 @@
 {
   "name": "readit-two",
   "productName": "readit-two",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
