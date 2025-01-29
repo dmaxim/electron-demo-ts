@@ -80,6 +80,14 @@ stages:
               workingDir: '$(System.DefaultWorkingDirectory)/readit-two'
               verbose: true
               
+          - task: Npm@1
+            displayName: 'Publish deb'
+            inputs:
+              command: 'custom'
+              customCommand: 'run publish'
+              workingDir: '$(System.DefaultWorkingDirectory)/readit-two'
+              verbose: true
+
           - task: CopyFiles@2
             inputs:
               sourceFolder: '$(Build.SourcesDirectory)'
